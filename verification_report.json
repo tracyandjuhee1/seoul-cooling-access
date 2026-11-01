@@ -1,0 +1,75 @@
+{
+  "reproduction_exact_byte_match": {
+    "data.js": true,
+    "dong_results.csv": true,
+    "research/analyze.py": true,
+    "research/grid_results.csv": true,
+    "research/audit.json": true
+  },
+  "internal_http_links": {
+    "style.css": {
+      "status": 200,
+      "bytes": 6888
+    },
+    "dong_results.csv": {
+      "status": 200,
+      "bytes": 78356
+    },
+    "research/analyze.py": {
+      "status": 200,
+      "bytes": 5442
+    },
+    "research/grid_results.csv": {
+      "status": 200,
+      "bytes": 3496121
+    },
+    "research/audit.json": {
+      "status": 200,
+      "bytes": 306
+    },
+    "data.js": {
+      "status": 200,
+      "bytes": 759414
+    },
+    "app.js": {
+      "status": 200,
+      "bytes": 4807
+    }
+  },
+  "grid_rows": 31174,
+  "dong_rows": 426,
+  "metrics": {
+    "all_300": {
+      "wed": 92.40840939891635,
+      "sun": 47.06821726761467
+    },
+    "all_500": {
+      "wed": 99.01115723742582,
+      "sun": 76.33739331765169
+    },
+    "all_800": {
+      "wed": 99.95394031946206,
+      "sun": 93.27340184634959
+    },
+    "public_300": {
+      "wed": 52.57744125141828,
+      "sun": 35.619007944518486
+    },
+    "public_500": {
+      "wed": 86.57564319971813,
+      "sun": 69.0237243230132
+    },
+    "public_800": {
+      "wed": 98.32945040552545,
+      "sun": 90.2797367926463
+    }
+  },
+  "sha256": {
+    "data.js": "100ff49fe2be87d9b44d55f7c32b8202e096b8e116c81b4a452aabc9992be064",
+    "dong_results.csv": "6f7783990302287d22319f162117fbb5eb31024d1401c720ee3947ce9d3077bc",
+    "research/analyze.py": "bc7bd59a82223c751ead2f30d4d3112056720195e06eb4223eb69ac6caa41f2e",
+    "research/grid_results.csv": "66d8255a389a030e7a5500c50a610b11274f860c7a1874900a467e783920409c",
+    "research/audit.json": "f947f85c8155cf97c96ab07b6612d0187755a2e647b6ceb0032d86bea9b96059"
+  },
+  "scope": "Wording revised to scheduled, potential spatial accessibility for Wednesday and Sunday 14:00. Analysis code and all five verified result/code files remain byte-identical. Local static HTTP links verified; deployed Cloudflare URL not provided."
+}

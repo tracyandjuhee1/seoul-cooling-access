@@ -1,0 +1,15 @@
+{
+  "facilities": 4092,
+  "wed": 4087,
+  "sun": 942,
+  "public_wed": 951,
+  "public_sun": 535,
+  "grids": 61654,
+  "missing_population_grids": 30314,
+  "outside_grids": 1126,
+  "analyzed_grids": 31174,
+  "population": 9337885.0,
+  "dongs": 426,
+  "boundary_date": "20250630",
+  "ambiguous_equal_time": 15
+}
