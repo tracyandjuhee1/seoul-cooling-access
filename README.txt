@@ -1,45 +1,58 @@
-서울 무더위쉼터 접근성 · 과제 3
+서울시 무더위쉼터 운영요일에 따른 잠재적 공간 접근성 분석
+====================================================
 
-[Cloudflare Pages 업로드]
-1. Cloudflare 로그인 → Workers & Pages → Create application → Pages → Use direct upload.
-2. 프로젝트 이름 입력(예: seoul-cooling-access).
-3. 제공된 ZIP을 그대로 업로드하거나, 압축을 풀어 index.html이 들어 있는 폴더를 업로드.
-4. Deploy site 클릭. 발급된 https://프로젝트명.pages.dev 주소를 과제 제출란에 입력.
-ZIP 최상위에 index.html이 있어야 합니다. GitHub 연결이나 빌드 명령은 필요 없습니다.
-기존 Git 연동 프로젝트는 새 Direct Upload 프로젝트와 경로가 다를 수 있습니다.
-공식 안내: https://developers.cloudflare.com/pages/get-started/direct-upload/
+1. 연구 배경과 질문
 
-[미리 보기]
-ZIP을 풀고 index.html을 브라우저에서 엽니다. 지도/데이터는 모두 로컬 파일이며 외부 API 키가 필요 없습니다.
-스타일과 data.js, app.js 파일을 함께 유지하세요.
+무더위쉼터의 설치 개수만으로는 주민이 가까운 쉼터에 접근할 기회를 충분히 설명하기 어렵다. 이 연구는 서울시 무더위쉼터의 등록 운영일정을 기준으로 수요일과 일요일 오후 2시에 운영 예정인 시설을 구분하고, 거주인구의 공간적 분포를 고려하여 접근성 차이를 살펴본다.
 
-[분석]
-2026 등록 쉼터, 2024 100m 격자인구, 2025.06.30 행정동 경계.
-수요일/일요일 오후 2시 운영 일정, 300/500/800m 직선거리 접근 인구 비율.
-전체 등록시설 / 공공시설 분류를 비교할 수 있습니다.
-운영시간이 같게 기재된 일정은 24시간으로 추정하지 않았습니다.
-수용능력, 실제 개방, 이용 자격, 계절 조건, 실제 보행망은 측정하지 않습니다.
+연구 질문: 수요일과 일요일에 직선거리 500m 이내 운영 예정 무더위쉼터가 있는 주민의 비율은 어떻게 달라지는가?
 
-[재현]
-Python 패키지: research/requirements.txt
-교수님 저장소: https://github.com/jslee-gses/code
-확인한 커밋: d04422c9a8341df75795956db6bdec4aaa9a61e0
-재실행 예시:
-python -m pip install -r research/requirements.txt
-python research/analyze.py --base /path/to/code/lecture05_urban_planning_index
-원본 쉼터 CSV는 research/shelters_original.csv(CP949)에 포함.
-분석 스크립트가 data.js, dong_results.csv, research/grid_results.csv, research/audit.json을 생성합니다.
-본문의 고정 결과 문구는 재분석 시 결과에 맞춰 갱신해야 합니다.
+2. 분석 자료와 범위
 
-[구성]
-index.html / style.css / app.js / data.js: 웹페이지
- dong_results.csv: 모든 조건의 426개 행정동 결과
- research/analyze.py: 공간 분석 및 집계 코드
- research/grid_results.csv: 격자별 최근접 거리와 인구
- research/audit.json: 검증 수치
+- 서울 열린데이터광장 '서울시 무더위쉼터' 등록자료(시설년도 2026)
+- SGIS 2024년 100m 격자 총인구(to_in_001)
+- 서울시 100m 격자 및 행정동 경계(경계 기준일 2025.06.30)
+- 분석 공간 단위: 100m 격자에서 계산 후 서울시 426개 행정동으로 집계
+- 비교 시점: 수요일 및 일요일 오후 2시
+- 거리 기준: 직선거리 300m, 500m, 800m
+- 시설 범위: 전체 등록시설 및 원자료상 공공시설 분류
 
-[출처]
-서울특별시, 서울 열린데이터광장 '서울시 무더위쉼터', 공공누리 제1유형 출처표시.
+3. 지표와 계산
+
+각 격자의 중심점에서 해당 시점에 등록 일정상 운영 예정인 가장 가까운 쉼터까지의 직선거리를 계산한다. 기준거리 이내에 쉼터가 있는 격자의 인구를 합산하고, 인구가 확인된 분석 대상 격자의 총인구로 나누어 접근 인구 비율(%)을 산출한다.
+
+접근 인구 비율(%) = 100 × [기준거리 이내 운영 예정 쉼터가 있는 격자의 인구 합] / [분석 대상 격자의 인구 합]
+
+수요일 비율에서 일요일 비율을 뺀 값은 퍼센트포인트(%p)로 표시한다. 값이 높을수록 해당 시점에 가까운 운영 예정 쉼터가 있는 주민의 비율이 높다.
+
+4. 주요 결과
+
+전체 등록시설, 직선거리 500m 기준 접근 인구 비율은 수요일 99.0%, 일요일 76.3%로 22.7%p 차이가 나타났다. 같은 조건에서 등록 일정상 운영 예정 시설 수는 수요일 4,087개, 일요일 942개였다. 시설 수 감소율과 접근 인구 비율 변화는 서로 다른 지표이므로 구분해 해석해야 한다.
+
+거리 기준(300m·500m·800m)과 시설 분류를 바꾸어 결과의 차이를 함께 확인할 수 있다.
+
+5. 해석의 범위와 한계
+
+이 결과는 등록 운영일정과 직선거리를 기반으로 한 잠재적 공간 접근성이다. 실제 개방 여부, 시설별 수용능력과 이용 자격, 보행망·경사, 시간대별 체류인구를 직접 측정하지 않았다. 전체 등록시설에는 특정계층 이용시설이 포함되므로 모든 주민의 자유로운 이용 가능성을 뜻하지 않는다. 인구 결합값이 없는 격자는 분자와 분모에서 제외했다.
+
+6. 파일 구성과 재현
+
+- index.html, style.css, app.js, data.js: 웹페이지와 시각화
+- dong_results.csv: 행정동별 분석 결과
+- research/analyze.py: 운영일정 판정, 최근접 거리 및 인구 가중 집계 코드
+- research/grid_results.csv: 격자별 계산 결과
+- research/audit.json, verification_report.json: 데이터 및 결과 검증 기록
+- research/shelters_original.csv: 무더위쉼터 원자료
+- research/requirements.txt: Python 의존 패키지
+
+분석 재현에는 인구격자 및 행정동 공간자료가 필요하다. 의존 패키지는 research/requirements.txt에 정리되어 있으며, analyze.py의 --base 옵션으로 해당 자료가 있는 디렉터리를 지정할 수 있다.
+
+7. 출처 및 도구 활용
+
+시설: 서울특별시, 서울 열린데이터광장 '서울시 무더위쉼터'(공공누리 제1유형, 출처표시)
 https://data.seoul.go.kr/dataList/OA-21065/S/1/datasetView.do
-인구/경계: 교수님 실습 저장소 제공자료. SGIS 등 원출처는 실습 노트북 참조.
-AI 보조: 코드 작성·검증 및 페이지 제작. 모든 수치는 제공 원자료를 이용해 계산.
+
+인구·공간자료 및 참고 실습 코드: https://github.com/jslee-gses/code/tree/main/lecture05_urban_planning_index
+격자인구 원출처: SGIS. 공간자료의 상세 출처와 이용조건은 해당 실습 자료를 참고한다.
+
+분석 설계와 결과 해석에 수업에서 배운 접근성 지표의 개념을 적용했으며, AI를 코드 작성·검증 및 웹페이지 제작의 보조 도구로 활용했다.
